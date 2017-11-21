@@ -1,11 +1,13 @@
 package manila.model;
 
+import java.util.ArrayList;
+
 import manila.view.PlaygroundView;
 
 /**
  * 小船类，船上装有货物，船上有位置可以装海员。
  */
-public class Boat {
+public class Boat implements GetOnPosition{
 	/** 船上的货物名 */
 	private String cargo_name;
 	/** 货物的总价值 */
@@ -14,6 +16,9 @@ public class Boat {
 	private Position[] pos_list;
 	/** 船在海中的位置 */
 	private int pos_in_the_sea;
+	/** 掠夺该船的玩家ID泛型数组 */
+	private ArrayList<Integer> beAttacked;
+	
 	
 	/** 船（左上角）在图形界面上的x坐标 */
 	private int posX;
@@ -31,28 +36,47 @@ public class Boat {
 		this.cargo_value = v;
 		this.pos_list = pl;
 		this.pos_in_the_sea = 0;
+		beAttacked = new ArrayList<>();
 	}
 	
-	/**
-	 * 当一个玩家分配海员登上该船时，调用该函数用以更新船上位置的信息
-	 * @param pid 登船玩家的ID
-	 */
-	public void getOnboard(int pid){
-		this.pos_list[getAvailPosIndex()].setSailorID(pid);
+	public Boat() {
+		
 	}
 	
-	/**
-	 * 使船在海中前进，更新船在海中的位置和在船在图形界面上的位置
-	 * @param step 船在海中前进的步数
-	 */
 	public void move(int step){
 		this.pos_in_the_sea += step;
 		this.posY -= step * PlaygroundView.SEA_INTERVAL;
 	}
 	
 	/**
+	 * 用于在计算利润时检查小船是否被海盗掠夺
+	 * @return 没被海盗掠夺返回true,否则返回false
+	 */
+	public boolean ifAttackedByPirate() {
+		return this.beAttacked.isEmpty();
+		
+	}
+	
+	/**
+	 * 被海盗上船或掠夺后记录海盗的ID
+	 */
+	public void beAttackedByPirate(int sailer_ID) {
+		this.beAttacked.add(sailer_ID);
+	}
+	
+	/**
+	 * 当一个玩家分配海员登上该船时，调用该函数用以更新船上位置的信息
+	 * @param pid 登船玩家的ID
+	 * 1
+	 */
+	public void getOnboard(int pid){
+		this.pos_list[getAvailPosIndex()].setSailorID(pid);
+	}
+	
+	/**
 	 * 获得该船当前空着的位置的编号（登船时自动从较低的编号开始）
 	 * @return 当前编号最小的空位所对应的编号值
+	 * 2
 	 */
 	public int getAvailPosIndex(){
 		for(int i=0; i<this.pos_list.length; i++){
@@ -66,6 +90,7 @@ public class Boat {
 	/**
 	 * 返回当前船上已有多少个坐了人的位置数
 	 * @return 已有人的位置数
+	 * 3
 	 */
 	public int getFilledPosNum(){
 		int pos_ind = getAvailPosIndex();
@@ -78,6 +103,7 @@ public class Boat {
 	/**
 	 * 返回当前编号最小的空位对应的登船费用
 	 * @return 当前编号最小的空位对应的登船费用
+	 * 4
 	 */
 	public int getAvailPosPrice(){
 		for(int i=0; i<this.pos_list.length; i++){
@@ -92,6 +118,7 @@ public class Boat {
 	 * @param x 光标的横坐标
 	 * @param y 光标的纵坐标
 	 * @return 是否在该船的范围内
+	 * 5
 	 */
 	public boolean isCursorInside(int x, int y){
 		if(x > this.posX && x < this.posX+PlaygroundView.BOAT_W
@@ -99,6 +126,12 @@ public class Boat {
 			return true;
 		return false;
 	}
+	
+	/**
+	 * 使船在海中前进，更新船在海中的位置和在船在图形界面上的位置
+	 * @param step 船在海中前进的步数
+	 */
+	
 
 	public String getCargo_name() {
 		return cargo_name;

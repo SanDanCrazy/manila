@@ -1,7 +1,7 @@
 package manila.model;
 
 /**
- * 位置类，代表一个船上的空位
+ * 位置类，代表模型的一个空位
  */
 public class Position {
 	/** 登上该位置所要支付的费用 */
