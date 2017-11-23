@@ -132,7 +132,7 @@ public class Boat implements GetOnPosition{
 	 * @param step 船在海中前进的步数
 	 */
 	
-
+	//getter and setter
 	public String getCargo_name() {
 		return cargo_name;
 	}

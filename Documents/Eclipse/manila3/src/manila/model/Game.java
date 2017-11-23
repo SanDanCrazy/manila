@@ -13,6 +13,20 @@ public class Game {
 	private Player[] players;
 	/** 小船数组 */
 	private Boat[] boats;
+	/** 保险员 */
+	private InsuranceOfficer officer;
+	/** 大领航员 */
+	private PilotLeader pilot_leader;
+	/** 小领航员 */
+	private PilotMember pilot_member;
+	/** 海盗 */
+	private Pirate pirate;
+	/** 港口数组 */
+	private Port[] ports;
+	/** 修理港数组 */
+	private RepairDepot[] repairDepots;
+	/** 股份数组 */
+	private Stock[] stocks;
 	/** 随机数产生器 */
 	private Random dice_generator;
 	
@@ -30,19 +44,22 @@ public class Game {
 	/** 游戏的总轮数 */
 	public static final int ROUND_NUMBER = 3;
 	/** 海路的总长度 */
-	public static final int SEA_LENGTH = 8;
+	public static final int SEA_LENGTH = 13;
 	
 	private GameView gameV;
 	
 	public Game(GameView gv){
 		this.gameV = gv;
 		
-		int[] prices1 = {3,4,5,5};
-		int[] prices2 = {2,3,3};
+		//初始化小船
+		int[] prices1 = {4,4,5,5};
+		int[] prices2 = {2,2,3};
 		int[] prices3 = {3,4,5};
+		int[] prices4 = {3,3,4};
 		Position[] pos1 = new Position[prices1.length];
 		Position[] pos2 = new Position[prices2.length];
 		Position[] pos3 = new Position[prices3.length];
+		Position[] pos4 = new Position[prices4.length];
 		
 		for(int i=0;i<prices1.length;i++){
 			pos1[i] = new Position(prices1[i]);
@@ -53,14 +70,77 @@ public class Game {
 		for(int i=0;i<prices3.length;i++){
 			pos3[i] = new Position(prices3[i]);
 		}
+		for(int i=0;i<prices4.length;i++) {
+			pos4[i] = new Position(prices4[i]);
+		}
 		
-		Boat s1 = new Boat("丝绸", 36, pos1);
-		Boat s2 = new Boat("可可",18, pos2);
-		Boat s3 = new Boat("玉器", 30, pos3);
-		this.boats = new Boat[3];
+		Boat s1 = new Boat(Cargo.JADE.getName(), 36, pos1);
+		Boat s2 = new Boat(Cargo.GINSENG.getName(),18, pos2);
+		Boat s3 = new Boat(Cargo.NUTMEG.getName(), 30, pos3);
+		Boat s4 = new Boat(Cargo.SILK.getName(), 24, pos4);
+		this.boats = new Boat[4];
 		boats[0] = s1;
 		boats[1] = s2;
 		boats[2] = s3;
+		boats[3] = s4;
+		
+		//初始化保险员
+		int prices5 = 0;
+		Position pos5 = new Position(prices5);
+		officer = new InsuranceOfficer(pos5);
+		
+		//初始化大领航员
+		int prices6 = 5;
+		Position pos6 = new Position(prices6);
+		pilot_leader = new PilotLeader(pos6, 2);
+		
+		//初始化小领航员
+		int prices7 = 2;
+		Position pos7 = new Position(prices7);
+		pilot_member = new PilotMember(pos7, 1);
+		
+		//初始化海盗
+		int[] prices8 = {5,5};
+		Position[] pos8 = new Position[2];
+		pos8[0] = new Position(prices8[0]);
+		pos8[1] = new Position(prices8[1]);
+		
+		//初始化港口
+		Position pos9 = new Position(4);
+		Position pos10 = new Position(3);
+		Position pos11 = new Position(2);
+		ports[0] = new Port(pos9, "港口1", 6);
+		ports[1] = new Port(pos10,"港口2", 8);
+		ports[2] = new Port(pos11,"港口3", 15);
+		
+		//初始化修理港
+		Position pos12 = new Position(4);
+		Position pos13 = new Position(3);
+		Position pos14 = new Position(2);
+		repairDepots[0] = new RepairDepot(pos12, "修理港1", 6);
+		repairDepots[1] = new RepairDepot(pos13,"修理港2", 8);
+		repairDepots[2] = new RepairDepot(pos14,"修理港3", 15);
+		
+		//初始化股份
+		Stock[] stocks = new Stock[12];
+		for(int i=0; i<3; i++) {
+			stocks[i] = new Stock("人参", 0);
+		}
+		for(int i=3; i<6; i++) {
+			stocks[i] = new Stock("丝绸", 0);
+		}
+		for(int i=6; i<9; i++) {
+			stocks[i] = new Stock("玉", 0);
+		}
+		for(int i=9; i<12; i++) {
+			stocks[i] = new Stock("肉豆蔻", 0);
+		}
+		
+		//初始化玩家
+		this.players = new Player[3];
+		this.players[0] = new Player("路飞", 0, Color.RED);
+		this.players[1] = new Player("杰克", 1, Color.GREEN);
+		this.players[2] = new Player("哥伦布", 2, Color.BLUE);
 		
 		this.dice_generator = new Random();
 		this.current_pid = 0;
@@ -69,10 +149,7 @@ public class Game {
 		this.choosing = true;
 		this.gameIsOver = false;
 		
-		this.players = new Player[3];
-		this.players[0] = new Player("路飞", 0, Color.RED);
-		this.players[1] = new Player("杰克", 1, Color.GREEN);
-		this.players[2] = new Player("哥伦布", 2, Color.BLUE);
+		
 	}
 	
 	/**
@@ -162,6 +239,7 @@ public class Game {
 		this.current_pid = (this.current_pid+1)%this.players.length;
 	}
 	
+	//getter and setter
 	public Player[] getPlayers() {
 		return players;
 	}

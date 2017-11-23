@@ -23,7 +23,7 @@ public class Stock{
 		this.setMortgage(false);
 	}
 	
-	
+	//getter and setter
 	public boolean isMortgage() {
 		return mortgage;
 	}

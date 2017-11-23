@@ -23,6 +23,7 @@ public class InsuranceOfficer implements GetOnPosition{
 		this.position = p;
 	}
 	
+	
 	public Position getPos() {
 		return this.position;
 	}

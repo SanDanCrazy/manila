@@ -94,6 +94,13 @@ public class Player {
 	public void getWelfare() {
 		this.account_balance += InsuranceOfficer.WELFARE;
 	}
+	
+	public void payPos(int amount){
+		this.account_balance -= amount;
+		this.worker_nb--;
+	}
+	
+	//getter and setter
 	/** 初始化玩家的股份数组 */
 	public void setStockList(ArrayList<Stock> s) {
 		this.stocks = s;
@@ -117,11 +124,6 @@ public class Player {
 		this.pid = pid;
 	}
 	
-	public void payPos(int amount){
-		this.account_balance -= amount;
-		this.worker_nb--;
-	}
-
 	public int getAccount_balance() {
 		return account_balance;
 	}

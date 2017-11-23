@@ -34,7 +34,7 @@ public class Pirate implements GetOnPosition{
 	}
 	
 	/**
-	 * 掠夺船只
+	 * 掠夺船只,并且船员升为海盗船长
 	 * @param b 要掠夺的船
 	 */
 	public void attackBoat(Boat b) {

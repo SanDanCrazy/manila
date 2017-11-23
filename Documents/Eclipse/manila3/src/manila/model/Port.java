@@ -34,6 +34,7 @@ public class Port implements GetOnPosition{
 		this.beFulled = true;
 	}
 	
+	//getter and setter
 	public boolean getBeFulled() {
 		return this.beFulled;
 	}

@@ -8,10 +8,8 @@ import manila.view.PlaygroundView;
  * isCursorInside未修改
  */
 public class Pilot implements GetOnPosition{
-	/** 空位数组 */
-	private Position[] pos_list;
-	/** 是否为大领航员 */
-	private boolean pilot_leader;
+	/** 一个空位 */
+	private Position position;
 	/** 领航员拥有的影响力 */
 	private int influence;
 	
@@ -20,18 +18,13 @@ public class Pilot implements GetOnPosition{
 	/** 领航员在图形界面的左上角的Y坐标 */
 	private int posY;
 	
-	public Pilot(Position[] p) {
-		this.pos_list = p;
-		this.setPilot_leader(false);
-		this.setInfluence(1);
+	public Pilot(Position p, int i) {
+		this.position = p;
+		this.influence = i;
 	}
 	
 	
-	public void setPilotLeader() {
-		this.setPilot_leader(true);
-		this.setInfluence(2);
-	}
-	
+	//getter and setter
 	public int getInfluence() {
 		return influence;
 	}
@@ -41,53 +34,40 @@ public class Pilot implements GetOnPosition{
 		this.influence = influence;
 	}
 
-
-	public boolean isPilot_leader() {
-		return pilot_leader;
+	public Position getPosition() {
+		return this.position;
+	}
+	
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 
-
-	public void setPilot_leader(boolean pilot_leader) {
-		this.pilot_leader = pilot_leader;
-	}
 	@Override
 	public void getOnboard(int pid) {
-		if(getAvailPosIndex() == 0) {
-			this.setPilotLeader();
-			this.pos_list[getAvailPosIndex()].setSailorID(pid);
+		if(getAvailPosIndex() == 0) this.position.setSailorID(pid);
 		}
-		else this.pos_list[getAvailPosIndex()].setSailorID(pid);
-		
-	}
-
 	@Override
 	public int getAvailPosIndex() {
-		for(int i=0; i<this.pos_list.length; i++){
-			if(this.pos_list[i].getSailorID() == -1)
-				return i;
-		}
+		if(this.position.getSailorID() == -1)
+				return 0;
 		// no position left
 		return -1;
 	}
-
 	@Override
 	public int getFilledPosNum() {
 		int pos_ind = getAvailPosIndex();
 		if(pos_ind == -1)
-			return this.pos_list.length;
+			//return this.pos_list.length;
+			return 1;
 		else
 			return pos_ind;
 	}
-
 	@Override
 	public int getAvailPosPrice() {
-		for(int i=0; i<this.pos_list.length; i++){
-			if(this.pos_list[i].getSailorID() == -1)
-				return this.pos_list[i].getPrice();
-		}
+		if(this.position.getSailorID() == -1)
+			return this.position.getPrice();
 		return -1;
 	}
-
 	@Override
 	public boolean isCursorInside(int x, int y) {
 		if(x > this.posX && x < this.posX+PlaygroundView.BOAT_W

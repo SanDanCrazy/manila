@@ -1,5 +1,7 @@
 package manila.model;
 
+import manila.view.PlaygroundView;
+
 /**
  * 修理港类，若有到达修理港的小船就可获利 
  * @author SanDan
@@ -9,9 +11,9 @@ public class RepairDepot implements GetOnPosition{
 	private Position position;
 	
 	private String name;
-	
+	/** 修理港空位所获利润 */
 	private int repair_value;
-	
+	/** 修理港是否停有小船 */
 	private boolean fulled;
 	
 	private int posX;
@@ -25,7 +27,7 @@ public class RepairDepot implements GetOnPosition{
 	}
 
 	
-	
+	//getter and setter
 	public Position getPosition() {
 		return position;
 	}
@@ -52,31 +54,38 @@ public class RepairDepot implements GetOnPosition{
 
 	@Override
 	public void getOnboard(int pid) {
-		// TODO Auto-generated method stub
-		
+		if(getAvailPosIndex() == 0) this.position.setSailorID(pid);
 	}
 
 	@Override
 	public int getAvailPosIndex() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(this.position.getSailorID() == -1)
+			return 0;
+		// no position left
+		return -1;
 	}
 
 	@Override
 	public int getFilledPosNum() {
-		// TODO Auto-generated method stub
-		return 0;
+		int pos_ind = getAvailPosIndex();
+		if(pos_ind == -1)
+			return 1;
+		else
+			return pos_ind;
 	}
 
 	@Override
 	public int getAvailPosPrice() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(this.position.getSailorID() == -1)
+			return this.position.getPrice();
+		return -1;
 	}
 
 	@Override
 	public boolean isCursorInside(int x, int y) {
-		// TODO Auto-generated method stub
+		if(x > this.posX && x < this.posX+PlaygroundView.BOAT_W
+				&& y > this.posY && y< this.posY+PlaygroundView.BOAT_H)
+			return true;
 		return false;
 	}
 	
