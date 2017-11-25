@@ -16,9 +16,9 @@ public class Game {
 	/** 保险员 */
 	private InsuranceOfficer officer;
 	/** 大领航员 */
-	private PilotLeader pilot_leader;
+	private Pilot pilot_leader;
 	/** 小领航员 */
-	private PilotMember pilot_member;
+	private Pilot pilot_member;
 	/** 海盗 */
 	private Pirate pirate;
 	/** 港口数组 */
@@ -92,18 +92,19 @@ public class Game {
 		//初始化大领航员
 		int prices6 = 5;
 		Position pos6 = new Position(prices6);
-		pilot_leader = new PilotLeader(pos6, 2);
+		pilot_leader = new Pilot(pos6, 2);
 		
 		//初始化小领航员
 		int prices7 = 2;
 		Position pos7 = new Position(prices7);
-		pilot_member = new PilotMember(pos7, 1);
+		pilot_member = new Pilot(pos7, 1);
 		
 		//初始化海盗
 		int[] prices8 = {5,5};
 		Position[] pos8 = new Position[2];
 		pos8[0] = new Position(prices8[0]);
 		pos8[1] = new Position(prices8[1]);
+		pirate = new Pirate(pos8);
 		
 		//初始化港口
 		Position pos9 = new Position(4);
