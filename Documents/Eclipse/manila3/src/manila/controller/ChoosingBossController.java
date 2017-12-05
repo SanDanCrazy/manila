@@ -37,6 +37,7 @@ public class ChoosingBossController implements ActionListener {
 			else{
 				this.bid_amount++;
 			}
+			this.cbv.getMoneyLabel().setText(this.bid_amount+"");//竞标完后更新竞标最高价
 			
 			this.boss_pid = this.cbv.getGame().getCurrent_pid();
 			this.cbv.getBossLabel().setText(this.cbv.getGame().getCurrentPlayer().getName()
@@ -58,9 +59,9 @@ public class ChoosingBossController implements ActionListener {
 	 */
 	public void pass(){
 		this.cbv.updateBidView(this.cbv.getGame().getCurrent_pid(), false);
-		
 		this.cbv.getGame().switchPlayer();
 		this.cbv.updateBidView(this.cbv.getGame().getCurrent_pid(), true);
+		
 	}
 	
 	/**
@@ -82,6 +83,7 @@ public class ChoosingBossController implements ActionListener {
 		this.cbv.getGame().getGameV().updatePlayersView(boss_pid, false);
 		// 显示边框
 		this.cbv.getGame().getGameV().updatePlayersView(boss_pid, true);
+		
 		this.cbv.setVisible(!this.cbv.isShowing());
 	}
 	
@@ -94,8 +96,6 @@ public class ChoosingBossController implements ActionListener {
 		else if(arg0.getActionCommand().equals("pass")){
 			this.pass();
 		}
-		else if(arg0.getActionCommand().equals("confirm")){
-			this.confirm();
 		}
 	}
 

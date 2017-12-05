@@ -7,7 +7,7 @@ import manila.model.Boat;
 import manila.model.Game;
 
 /**
- * 控制摇骰子的按钮的事件监听类
+ * 控制前进的按钮的事件监听类
  */
 public class DiceController implements ActionListener {
 

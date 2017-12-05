@@ -87,29 +87,30 @@ public class Game {
 		//初始化保险员
 		int prices5 = 0;
 		Position pos5 = new Position(prices5);
-		officer = new InsuranceOfficer(pos5);
+		setOfficer(new InsuranceOfficer(pos5));
 		
 		//初始化大领航员
 		int prices6 = 5;
 		Position pos6 = new Position(prices6);
-		pilot_leader = new Pilot(pos6, 2);
+		setPilot_leader(new Pilot(pos6, 2));
 		
 		//初始化小领航员
 		int prices7 = 2;
 		Position pos7 = new Position(prices7);
-		pilot_member = new Pilot(pos7, 1);
+		setPilot_member(new Pilot(pos7, 1));
 		
 		//初始化海盗
 		int[] prices8 = {5,5};
 		Position[] pos8 = new Position[2];
 		pos8[0] = new Position(prices8[0]);
 		pos8[1] = new Position(prices8[1]);
-		pirate = new Pirate(pos8);
+		setPirate(new Pirate(pos8));
 		
 		//初始化港口
 		Position pos9 = new Position(4);
 		Position pos10 = new Position(3);
 		Position pos11 = new Position(2);
+		this.ports = new Port[3];
 		ports[0] = new Port(pos9, "港口1", 6);
 		ports[1] = new Port(pos10,"港口2", 8);
 		ports[2] = new Port(pos11,"港口3", 15);
@@ -118,6 +119,7 @@ public class Game {
 		Position pos12 = new Position(4);
 		Position pos13 = new Position(3);
 		Position pos14 = new Position(2);
+		this.repairDepots = new RepairDepot[3];
 		repairDepots[0] = new RepairDepot(pos12, "修理港1", 6);
 		repairDepots[1] = new RepairDepot(pos13,"修理港2", 8);
 		repairDepots[2] = new RepairDepot(pos14,"修理港3", 15);
@@ -303,6 +305,46 @@ public class Game {
 
 	public void setBoss_pid(int boss_pid) {
 		this.boss_pid = boss_pid;
+	}
+
+	public InsuranceOfficer getOfficer() {
+		return officer;
+	}
+
+	public void setOfficer(InsuranceOfficer officer) {
+		this.officer = officer;
+	}
+
+	public Pilot getPilot_leader() {
+		return pilot_leader;
+	}
+
+	public void setPilot_leader(Pilot pilot_leader) {
+		this.pilot_leader = pilot_leader;
+	}
+
+	public Pilot getPilot_member() {
+		return pilot_member;
+	}
+
+	public void setPilot_member(Pilot pilot_member) {
+		this.pilot_member = pilot_member;
+	}
+
+	public Pirate getPirate() {
+		return pirate;
+	}
+
+	public void setPirate(Pirate pirate) {
+		this.pirate = pirate;
+	}
+
+	public Stock[] getStocks() {
+		return stocks;
+	}
+
+	public void setStocks(Stock[] stocks) {
+		this.stocks = stocks;
 	}
 	
 	

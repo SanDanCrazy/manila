@@ -18,6 +18,11 @@ public class GameController implements MouseListener {
 		this.game = g;
 	}
 	
+	/** 
+	 * 选择空位的函数，函数名暂未修改
+	 * @param x 船只左上角横坐标
+	 * @param y 船只左上角纵坐标
+	 */
 	public void clickedOnBoat(int x, int y){
 		Boat[] boats = game.getBoats();
 		for(int i=0; i<boats.length; i++){

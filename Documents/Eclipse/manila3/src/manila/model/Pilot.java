@@ -68,14 +68,6 @@ public class Pilot implements GetOnPosition{
 			return this.position.getPrice();
 		return -1;
 	}
-	@Override
-	public boolean isCursorInside(int x, int y) {
-		if(x > this.posX && x < this.posX+PlaygroundView.BOAT_W
-				&& y > this.posY && y< this.posY+PlaygroundView.BOAT_H)
-			return true;
-		return false;
-	}
-
 
 	
 	

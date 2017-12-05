@@ -9,7 +9,7 @@ import manila.view.PlaygroundView;
 public class RepairDepot implements GetOnPosition{
 	
 	private Position position;
-	
+	/** 修理港名称 */
 	private String name;
 	/** 修理港空位所获利润 */
 	private int repair_value;
@@ -21,7 +21,7 @@ public class RepairDepot implements GetOnPosition{
 	
 	public RepairDepot(Position p, String n, int v) {
 		this.setPosition(p);
-		this.name = n;
+		this.setName(n);
 		this.setRepair_value(v);
 		this.setFulled(false);
 	}
@@ -52,6 +52,13 @@ public class RepairDepot implements GetOnPosition{
 		this.fulled = fulled;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	@Override
 	public void getOnboard(int pid) {
 		if(getAvailPosIndex() == 0) this.position.setSailorID(pid);
@@ -81,12 +88,5 @@ public class RepairDepot implements GetOnPosition{
 		return -1;
 	}
 
-	@Override
-	public boolean isCursorInside(int x, int y) {
-		if(x > this.posX && x < this.posX+PlaygroundView.BOAT_W
-				&& y > this.posY && y< this.posY+PlaygroundView.BOAT_H)
-			return true;
-		return false;
-	}
 	
 }

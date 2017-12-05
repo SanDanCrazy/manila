@@ -18,19 +18,24 @@ import manila.model.Player;
 /**
  * Manila 游戏选举船老大的窗口。
  */
-public class ChoosingBossView extends JFrame {
+public class ChoosingBossView extends JPanel {
 	private Game game;
+	
 	private ChoosingBossController cbc;
 	
 	/** 主面板 */
 	private JPanel content;
-	/** 玩家名称面板（用来装简略版PlayerView） */
-	private JPanel playerView;
-	/** 当前船老大姓名和对应金额面板 */
-	private JPanel bossView;
-	/** 选择船老大的面板 */
-	private JPanel chooseView;
-	/** 用于显示当前船老大姓名和对应金额 */
+	/** 玩家1姓名的label */
+	private JLabel name1Label;
+	/** 玩家2姓名的label */
+	private JLabel name2Label;
+	/** 玩家3姓名的label */
+	private JLabel name3Label;
+	/** 玩家4姓名的label */
+	private JLabel name4Label;
+	/** 当前竞选海港负责人的金额 */
+	private JLabel moneyLabel;
+	/** 显示当前海港负责人的label */
 	private JLabel bossLabel;
 	
 	/** 竞选金额输入框 */
@@ -39,8 +44,6 @@ public class ChoosingBossView extends JFrame {
 	private JButton bidB;
 	/** 跳过本轮竞选按钮 */
 	private JButton passB;
-	/** 结束竞选按钮 */
-	private JButton confirmB;
 	
 	/** 简略版PlayerView的数组 */
 	private PlayerView[] pvList;
@@ -50,56 +53,66 @@ public class ChoosingBossView extends JFrame {
 		this.cbc = new ChoosingBossController(this);
 		
 		this.content = new JPanel();
-		this.playerView = new JPanel();
-		this.bossView = new JPanel();
-		this.chooseView = new JPanel();
+		this.content.setBounds(0, 460, 425, 393);
+		this.content.setLayout(null);
 		
-		this.setContentPane(this.content);
-		this.content.setPreferredSize(new Dimension(400, 200));
-		
-		this.content.setLayout(new BorderLayout());
 		this.pvList = new PlayerView[this.game.getPlayers().length];
 		for(int i=0; i<this.game.getPlayers().length; i++){
-			this.pvList[i] = new PlayerView(this.game.getPlayers()[i],false);
-			this.playerView.add(this.pvList[i]);
+			this.pvList[i] = new PlayerView(this.game.getPlayers()[i],i);
 			if(i == 0){
 				this.pvList[i].setActive(true);
 			}
 		}
-		this.content.add(this.playerView,BorderLayout.NORTH);
 		
-		JLabel label = new JLabel("船老大:");
-		label.setFont(new Font("SansSerif", Font.CENTER_BASELINE, 24));
-		label.setHorizontalTextPosition(SwingConstants.LEFT);
-		this.bossView.add(label);
+		this.name1Label = new JLabel();
+		this.name1Label.setText(this.game.getPlayers()[0].getName());
+		this.name1Label.setFont(new Font("宋体", Font.BOLD, 25));
+		this.name1Label.setBounds(0, 66, 78, 73);
+		this.name2Label = new JLabel();
+		this.name1Label.setText(this.game.getPlayers()[1].getName());
+		this.name1Label.setFont(new Font("宋体", Font.BOLD, 25));
+		this.name1Label.setBounds(100, 66, 78, 73);
+		this.name3Label = new JLabel();
+		this.name1Label.setText(this.game.getPlayers()[2].getName());
+		this.name1Label.setFont(new Font("宋体", Font.BOLD, 25));
+		this.name1Label.setBounds(200, 66, 78, 73);
+		this.name4Label = new JLabel();
+		this.name1Label.setText(this.game.getPlayers()[3].getName());
+		this.name1Label.setFont(new Font("宋体", Font.BOLD, 25));
+		this.name1Label.setBounds(300, 66, 78, 73);
+		
+		
+		JLabel label = new JLabel("海港负责人:");
+		label.setFont(new Font("宋体", Font.BOLD, 25));
+		label.setBounds(51, 197, 156, 41);
+		
+		JLabel label1 = new JLabel("竞选窗口");
+		label1.setFont(new Font("宋体", Font.BOLD, 30));
+		label1.setBounds(131, 3, 134, 42);
+
 		this.bossLabel = new JLabel("xxxx");
-		this.bossLabel.setFont(new Font("SansSerif", Font.CENTER_BASELINE, 24));
-		this.bossView.add(bossLabel);
-		this.content.add(this.bossView, BorderLayout.CENTER);
+		this.bossLabel.setFont(new Font("宋体", Font.BOLD, 35));
+
 		
-		this.amountT = new JTextField(10);
+		this.amountT = new JTextField();
+		this.amountT.setFont(new Font("宋体", Font.BOLD, 25));
+		this.amountT.setBounds(169, 267, 50, 32);
+		this.amountT.setColumns(10);
+		
+		this.setMoneyLabel(new JLabel());
+		
 		this.bidB = new JButton("竞选");
+		this.bidB.setFont(new Font("宋体", Font.BOLD, 15));
+		this.bidB.setBounds(151, 327, 93, 27);
 		this.passB = new JButton("跳过");
-		this.confirmB = new JButton("确认");
+		this.passB.setFont(new Font("宋体", Font.BOLD, 15));
+		this.passB.setBounds(285, 267, 93, 27);
 		
 		this.bidB.addActionListener(this.cbc);
 		this.bidB.setActionCommand("bid");
 		this.passB.addActionListener(this.cbc);
 		this.passB.setActionCommand("pass");
-		this.confirmB.addActionListener(this.cbc);
-		this.confirmB.setActionCommand("confirm");
 		
-		this.chooseView.add(this.amountT);
-		this.chooseView.add(this.bidB);
-		this.chooseView.add(this.passB);
-		this.chooseView.add(this.confirmB);
-		
-		this.content.add(this.chooseView,BorderLayout.SOUTH);
-		
-		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-		this.setTitle("开始竞选吧");
-		this.pack();
-		this.setVisible(true);
 	}
 
 	public void updateBidView(int pid, boolean active){
@@ -142,6 +155,14 @@ public class ChoosingBossView extends JFrame {
 
 	public void setBossLabel(JLabel bossLabel) {
 		this.bossLabel = bossLabel;
+	}
+
+	public JLabel getMoneyLabel() {
+		return moneyLabel;
+	}
+
+	public void setMoneyLabel(JLabel moneyLabel) {
+		this.moneyLabel = moneyLabel;
 	}
 	
 	

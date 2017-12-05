@@ -22,46 +22,41 @@ import manila.model.Player;
  * 游戏主界面，包含main函数
  */
 public class GameView extends JPanel {
-	/** 信息窗口的宽度 */
-	private static final int INFO_W = 300;
-	/** 信息窗口的高度 */
-	private static final int INFO_H = 800;
-    
+	
 	private Game game;
 	
 	/** 游戏场景窗口 */
 	private PlaygroundView playground;
-	/** 信息窗口 */
-	private JPanel infoView;
+	
 	/** 玩家信息窗口 */
 	private JPanel playersView;
-	/** 摇骰子的窗口 */
-	private JPanel diceView;
+	
+	/** 货物价格信息窗口 */
+	private CargoView cargoV;
+	
+	/** 选择上场小船窗口 */
+	private ChoosingBoatView choosingBoatV;
+	
+	/** 竞选海港负责人窗口 */
+	private ChoosingBossView choosingBossV;
+	
+	/** 显示当前信息的窗口 */
+	private CurrentStateView stateV;
 	
 	/** 存放玩家信息视图的数组 */
 	private PlayerView[] playersV;
-	/** 控制摇骰子的按钮 */
-	private JButton diceButton;
+	
+	
 	
 	public GameView(){
 		this.game = new Game(this);
 		
 		this.playground = new PlaygroundView(this.game);
-        this.infoView = new JPanel();
+       
+        this.cargoV = new CargoView();
         
         this.makePlayerView();
-        this.makeDiceView();
         
-        this.infoView.setPreferredSize(new Dimension(INFO_W, INFO_H));
-        this.infoView.setBackground(Color.GREEN);
-        this.infoView.setLayout(new BorderLayout());
-        this.infoView.add(playersView, BorderLayout.CENTER);
-        this.infoView.add(diceView, BorderLayout.SOUTH);
-        
-        this.add(this.playground);
-        this.add(this.infoView);
-        
-        //this.setBackground(Color.RED);
         
 	}
 	
@@ -70,36 +65,24 @@ public class GameView extends JPanel {
 	 */
 	public void makePlayerView(){
 		this.playersView = new JPanel();
-		this.playersView.setLayout(new GridLayout(4,1));
-		this.playersView.setPreferredSize(new Dimension(INFO_W, 300));
+		this.playersView.setLayout(null);
+		this.playersView.setBounds(0, 0, 366, 460);
 		
 		JLabel text = new JLabel("玩家信息");
-		text.setHorizontalTextPosition(SwingConstants.LEFT);
-		text.setFont(new Font("SansSerif", Font.CENTER_BASELINE, 24));
+		text.setBounds(97, 13, 139, 41);
+		text.setFont(new Font("宋体", Font.BOLD, 30));
 		this.playersView.add(text);
+		
 		Player[] players = this.game.getPlayers();
 		this.playersV = new PlayerView[players.length];
 		for(int i=0; i<players.length; i++){
-			PlayerView pv = new PlayerView(players[i],true);
+			PlayerView pv = new PlayerView(players[i],i);
 			if(this.game.getCurrent_pid() == players[i].getPid()){
 				pv.setActive(true);
 			}
 			this.playersV[i] = pv;
 			this.playersView.add(pv);
 		}
-	}
-	
-	/**
-	 * 对摇骰子的视图进行初始化
-	 */
-	public void makeDiceView(){
-		this.diceView = new JPanel();
-		this.diceView.setPreferredSize(new Dimension(INFO_W, 500));
-		this.diceView.setBackground(Color.GRAY);
-		this.diceButton = new JButton("前进");
-		this.diceButton.setFont(new Font("SansSerif", Font.CENTER_BASELINE, 24));
-		this.diceButton.addActionListener(new DiceController(this.game));
-		this.diceView.add(this.diceButton);
 	}
 	
 	/**
@@ -114,6 +97,7 @@ public class GameView extends JPanel {
 				if(!active){
 					pv.getScoreV().setText(p.getAccount_balance()+"$");
 					pv.getWorker_nbV().setText(p.getWorker_nb()+"");
+					pv.updateStocksNumView();
 				}
 				pv.setActive(active);
 			}
@@ -122,6 +106,7 @@ public class GameView extends JPanel {
 	}
 	
 
+	//getter and setter and the last is main
 	public PlaygroundView getPlayground() {
 		return playground;
 	}

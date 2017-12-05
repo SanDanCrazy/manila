@@ -113,19 +113,6 @@ public class Boat implements GetOnPosition{
 		return -1;
 	}
 	
-	/**
-	 * 判断鼠标光标是否在该船的范围内
-	 * @param x 光标的横坐标
-	 * @param y 光标的纵坐标
-	 * @return 是否在该船的范围内
-	 * 5
-	 */
-	public boolean isCursorInside(int x, int y){
-		if(x > this.posX && x < this.posX+PlaygroundView.BOAT_W
-				&& y > this.posY && y< this.posY+PlaygroundView.BOAT_H)
-			return true;
-		return false;
-	}
 	
 	/**
 	 * 使船在海中前进，更新船在海中的位置和在船在图形界面上的位置

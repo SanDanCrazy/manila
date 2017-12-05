@@ -27,12 +27,5 @@ public interface GetOnPosition {
 	 */
 	public int getAvailPosPrice();
 	
-	/**
-	 * 判断鼠标光标是否在该船的范围内
-	 * @param x 光标的横坐标
-	 * @param y 光标的纵坐标
-	 * @return 是否在该船的范围内
-	 */
-	public boolean isCursorInside(int x, int y);
-
+	
 }

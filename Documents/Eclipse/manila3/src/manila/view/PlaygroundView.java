@@ -1,15 +1,16 @@
 package manila.view;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
+import manila.controller.DiceController;
 import manila.controller.GameController;
 import manila.model.Boat;
 import manila.model.Game;
@@ -19,130 +20,135 @@ import manila.model.Position;
  * 游戏场景界面类
  */
 public class PlaygroundView extends JPanel {
-	/** 游戏场景宽度 */
-	private static final int GROUND_W = 400;
-	/** 游戏场景高度 */
-	private static final int GROUND_H = 800;  
 	
-	/** 一段航程在界面上的长度（直线的间隔） */
-	public static final int SEA_INTERVAL = 35;
-	/** 第一条大海线段的起点x坐标*/
-	private static final int SEA_START_X = 50; 
-	/** 第一条大海线段的起点y坐标 */
-	private static final int SEA_START_Y = 200;
-	/** 大海线段的宽 */
-	private static final int SEA_W = 300;
+	/** 小船1的JLabel */
+	private JLabel boat1;
+	/** 小船2的JLabel */
+	private JLabel boat2;
+	/** 小船3的JLabel */
+	private JLabel boat3;
+	/** 大海贴图的JLabel */
+	private JLabel seaLabel;
+	/** 保险员贴图的JLabel */
+	private JLabel insuranceLabel;
+	/** 大领航员贴图的JLabel */
+	private JLabel pilotLabel1;
+	/** 小领航员贴图的JLabel */
+	private JLabel pilotLabel2;
+	/** 修理厂贴图的JLabel */
+	private JLabel repairLabel;
+	/** 港口贴图的JLabel */
+	private JLabel portLabel;
+	/** 海盗船贴图的JLabel */
+	private JLabel pirateLabel;
+	/** 控制船前进的Button */
+	private JButton diceButton;
 	
-	/** 一条小船的宽度 */
-	public static final int BOAT_W = 50;
-	/** 一条小船的高度 */
-	public static final int BOAT_H = 140;
-	/** 船之间的横向间隔 */
-	private static final int BOAT_DISTANCE = 50;
-	/** 最左边小船左上角x坐标 */
-	private static final int BOAT_START_X = 75;
-	/** 最左边小船右上角y坐标 */
-	private static final int BOAT_START_Y = SEA_START_Y+Game.SEA_LENGTH*SEA_INTERVAL;
+	/** 大海的JPanel(其中包含三个小船的JLabel和大海图  */
+	private JPanel seaPanel;
+	/** 保险员的JPanel */
+	private JPanel insurancePanel;
+	/** 领航员的JPanel */
+	private JPanel pilotPanel;
+	/** 修理厂的JPanel */
+	private JPanel repairPanel;
+	/** 港口的JPanel */
+	private JPanel portPanel;
+	/** 控制船前进的JPanel */
+	private JPanel dicePanel;
+	/** 海盗的JPanel */
+	private JPanel piratePanel;
+
 	
-	/** 小船上位置的宽度 */
-	private static final int POS_W = 40;
-	/** 小船上位置的高度 */
-	private static final int POS_H = 20;
-	/** 小船上最上面位置左上角的x坐标 */
-	private static final int POS_START_X = 5;
-	/** 小船上最上面位置左上角的y坐标 */
-	private static final int POS_START_Y = 20;
-	/** 小船上位置间在y方向上的间隔 */
-	private static final int POS_INTERVAL = 10;
 	
 	private Game game;
 	
 	public PlaygroundView(Game g){
 		this.game = g;
-		this.setPreferredSize(new Dimension(GROUND_W, GROUND_H));
+		this.setBounds(660, 0, 1022, 853);
 		this.addMouseListener(new GameController(this.game));
 		
-		this.initBoats();
+		this.initComponents();//贴图工作未完成
+		
+		this.add(dicePanel);
+		this.add(insurancePanel);
+		this.add(pilotPanel);
+		this.add(piratePanel);
+		this.add(portPanel);
+		this.add(repairPanel);
+		this.add(seaPanel);
+		
 	}
 	
 	/**
-	 * 对小船们的位置进行初始化
+	 * 对组件的位置进行初始化
 	 */
-	private void initBoats() {
-		Boat[] boats = this.game.getBoats();
-		for(int i=0;i<boats.length;i++){
-			boats[i].setPosX(BOAT_START_X+i*(BOAT_W+BOAT_DISTANCE));
-			boats[i].setPosY(BOAT_START_Y);
-		}
+	private void initComponents() {
+		
+		//大海的JPanel初始化
+		this.seaPanel = new JPanel();
+		this.seaLabel = new JLabel();
+		this.seaPanel.setBounds(0, 211, 1008, 346);
+		this.seaLabel.setBounds(0, 211, 1008, 346);
+		this.seaPanel.add(seaLabel);
+		this.boat1 = new JLabel();
+		this.boat1.setBounds(0, 39, 188, 54);
+		this.boat2 = new JLabel();
+		this.boat2.setBounds(0, 144, 188, 54);
+		this.boat3 = new JLabel();
+		this.boat3.setBounds(0, 252, 188, 54);
+	
+		//保险员的JPanel初始化
+		this.insurancePanel = new JPanel();
+		this.insuranceLabel = new JLabel();
+		this.insurancePanel.setBounds(103, 28, 122, 120);
+		this.insuranceLabel.setBounds(103, 28, 122, 120);
+		this.insurancePanel.add(insuranceLabel);
+		
+		//领航员的JPanel初始化
+		this.pilotPanel = new JPanel();
+		this.pilotLabel1 = new JLabel();
+		this.pilotLabel2 = new JLabel();
+		this.pilotPanel.setBounds(448, 40, 190, 81);
+		this.pilotLabel1.setBounds(448, 40, 95, 41);
+		this.pilotLabel2.setBounds(448, 40, 95, 40);
+		this.pilotPanel.add(pilotLabel1);
+		this.pilotPanel.add(pilotLabel2);
+		
+		//修理厂的JPanel初始化
+		this.repairPanel = new JPanel();
+		this.repairLabel = new JLabel();
+		this.repairPanel.setBounds(268, 584, 402, 193);
+		this.repairLabel.setBounds(268, 584, 402, 193);
+		this.repairPanel.add(repairLabel);
+		
+		//港口的JPanel初始化
+		this.portPanel = new JPanel();
+		this.portLabel = new JLabel();
+		this.portPanel.setBounds(730, 580, 234, 273);
+		this.portLabel.setBounds(730, 580, 234, 273);
+		this.portPanel.add(portLabel);
+		
+		//控制船前进的JPanel初始化
+		this.dicePanel = new JPanel();
+		this.diceButton = new JButton("前进");
+		this.dicePanel.setBounds(54, 595, 144, 71);
+		this.diceButton.setFont(new Font("宋体", Font.BOLD, 15));
+		this.diceButton.setBounds(14, 13, 113, 45);
+		this.diceButton.addActionListener(new DiceController(this.game));
+		this.dicePanel.add(diceButton);
+		
+		//海盗的JPanel初始化
+		this.piratePanel = new JPanel();
+		this.pirateLabel = new JLabel();
+		this.piratePanel .setBounds(832, 5, 109, 193);
+		this.pirateLabel .setBounds(832, 5, 109, 193);
+		this.piratePanel.add(pirateLabel);
+		
+		
 	}
 
-	public void paintComponent(Graphics g) {
-        super.paintComponent(g);       
-    }
 	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-	    Graphics2D g2 = (Graphics2D) g;
-	    
-	    this.drawSea(g2);
-	    this.drawBoats(g2);
-	}
 	
-	/**
-	 * 画出大海（一组线段）
-	 * @param g2  图形类
-	 */
-	public void drawSea(Graphics2D g2){
-		for(int i=0;i<=Game.SEA_LENGTH;i++){
-	    	g2.draw(new Line2D.Double(SEA_START_X, SEA_START_Y+i*SEA_INTERVAL, 
-	    			SEA_START_X+SEA_W, SEA_START_Y+i*SEA_INTERVAL));
-	    	g2.drawString(Game.SEA_LENGTH-i+"", SEA_START_X+SEA_W, SEA_START_Y+i*SEA_INTERVAL);
-		}
-	}
 	
-	/**
-	 * 根据小船的信息在界面上画出一条小船以及船上的所有位置
-	 * @param g2 图形类
-	 * @param b 一个小船对象
-	 */
-	public void drawBoat(Graphics2D g2, Boat b){
-		g2.setColor(Color.GRAY);
-		g2.fill(new Rectangle2D.Double(b.getPosX(), b.getPosY(), BOAT_W, BOAT_H));
-		
-		g2.setColor(Color.BLACK);
-		g2.setFont(new Font("SansSerif", Font.PLAIN, 18));
-		g2.drawString(b.getCargo_value()+"", b.getPosX()+14, b.getPosY()+18);
-		
-		Position[] pos_list = b.getPos_list();
-		for(int i=0; i<pos_list.length; i++){
-			if(pos_list[i].getSailorID() == -1){
-				g2.setColor(Color.WHITE);
-				Rectangle2D r_pos = new Rectangle2D.Double(b.getPosX()+POS_START_X, 
-						b.getPosY()+POS_START_Y+i*(POS_H+POS_INTERVAL),
-						POS_W, POS_H);
-				g2.fill(r_pos);
-				g2.setColor(Color.BLACK);
-				g2.setFont(new Font("SansSerif", Font.PLAIN, 14));
-				g2.drawString(pos_list[i].getPrice()+"", (int)r_pos.getX()+POS_W/2-4, (int)r_pos.getY()+POS_H/2+5);
-			}
-			else{
-				g2.setColor(this.game.getPlayerByID(pos_list[i].getSailorID()).getC());
-				g2.fill(new Rectangle2D.Double(b.getPosX()+POS_START_X, 
-						b.getPosY()+POS_START_Y+i*(POS_H+POS_INTERVAL),
-						POS_W, POS_H));
-			}
-		}
-	}
-	
-	/**
-	 * 画出所有的小船
-	 * @param g2 图形类
-	 */
-	public void drawBoats(Graphics2D g2){
-		Boat[] boats = this.game.getBoats();
-		for(int i=0;i<boats.length;i++){
-			this.drawBoat(g2, boats[i]);
-		}
-	}
 }
